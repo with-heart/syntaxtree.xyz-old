@@ -1,0 +1,13 @@
+{
+  "name": "syntaxtree.xyz",
+  "private": true,
+  "description": "A monorepo brimming with syntax tree knowledge and exploration",
+  "keywords": [
+    "syntax-tree",
+    "ast",
+    "explorer"
+  ],
+  "author": "with-heart <with.heart+git@pm.me>",
+  "license": "MIT",
+  "scripts": {}
+}
