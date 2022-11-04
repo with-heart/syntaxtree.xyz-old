@@ -9,5 +9,17 @@
   ],
   "author": "with-heart <with.heart+git@pm.me>",
   "license": "MIT",
-  "scripts": {}
+  "workspaces": [
+    "site",
+    "packages/*"
+  ],
+  "preconstruct": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "scripts": {},
+  "dependencies": {
+    "@preconstruct/cli": "^2.2.2"
+  }
 }
