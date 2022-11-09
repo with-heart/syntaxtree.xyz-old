@@ -1,4 +1,4 @@
-import {useActiveCode} from '@codesandbox/sandpack-react'
+import {useSandpack} from '@codesandbox/sandpack-react'
 import {fromMarkdown} from 'mdast-util-from-markdown'
 import {Node, Parent} from 'unist'
 import {convert} from 'unist-util-is'
@@ -21,18 +21,16 @@ const Property = ({property, value}: {property: string; value: any}) => {
     return (
       <details>
         <summary>{property}</summary>
-        <div>
-          {Object.entries(value).map(([property, value]) => (
-            <Property key={property} property={property} value={value} />
-          ))}
-        </div>
+        {Object.entries(value).map(([property, value]) => (
+          <Property key={property} property={property} value={value} />
+        ))}
       </details>
     )
   }
 
   return (
     <div>
-      {property}: {typeof value === 'string' ? `"${value}"` : value}
+      {property}: {String(value)}
     </div>
   )
 }
@@ -63,7 +61,8 @@ const Node = ({node, isRoot}: {node: Node; isRoot?: boolean}) => {
 }
 
 export const Tree = () => {
-  const {code} = useActiveCode()
+  const {sandpack} = useSandpack()
+  const code = sandpack.files['/index.md'].code
   const node = fromMarkdown(code)
 
   return (

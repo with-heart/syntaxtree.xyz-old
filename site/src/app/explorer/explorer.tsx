@@ -1,14 +1,11 @@
 'use client'
 
-import {
-  SandpackLayout,
-  SandpackPreview,
-  SandpackProvider,
-} from '@codesandbox/sandpack-react'
+import {SandpackLayout, SandpackProvider} from '@codesandbox/sandpack-react'
 import {githubLight} from '@codesandbox/sandpack-themes'
 import {useEffect, useState} from 'react'
 import {parser} from './markdown'
 import MarkdownEditor from './markdown-editor'
+import {Tree} from './tree'
 
 const initialMarkdown = `
 # Hello World
@@ -87,7 +84,7 @@ export default function App(): JSX.Element {
     >
       <SandpackLayout>
         <MarkdownEditor />
-        <SandpackPreview style={{height: '100vh'}} />
+        <Tree />
       </SandpackLayout>
     </SandpackProvider>
   )

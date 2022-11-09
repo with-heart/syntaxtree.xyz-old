@@ -1,12 +1,12 @@
 .syntax-tree {
+  height: 100vh;
+  overflow: auto;
+  flex: 1 1 0px;
+  font-size: var(--size-step-0);
   padding: 0.5em;
 
-  summary {
-    padding-inline: 0.25em;
-  }
-
   details > :is(details, div) {
-    padding-inline-start: 1em;
-    border-inline-start-width: 1px;
+    margin-block: 0.5em;
+    padding-inline: 1em;
   }
 }
