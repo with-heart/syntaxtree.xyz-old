@@ -1,36 +1,34 @@
-import fs from 'fs/promises'
-import {fromMarkdown} from 'mdast-util-from-markdown'
+import * as fs from 'fs/promises'
 import path from 'path'
-import {fileURLToPath} from 'url'
 import Explorer from './explorer'
-
-const __dirname = fileURLToPath(path.dirname(import.meta.url))
-
-const md = `
-# Tree Test
-
-This is a plain paragraph!
-
-This paragraph has a [link](https://google.com/) in it!
-
-- this
-- is
-- a
-- list
-`.trim()
-
-const mdast = fromMarkdown(md)
+import {fileURLToDirname} from './utils'
 
 export default async function AppPage() {
-  // const data = await getData()
-  // return <Tree node={mdast} />
-  return <Explorer />
+  const files = await getFiles()
+  return <Explorer files={files} />
 }
 
-async function getData() {
-  const data = await fs.readFile(
-    path.resolve(__dirname, './monaco-editor.tsx'),
-    'utf-8',
+const __dirname = fileURLToDirname(import.meta.url)
+
+async function getFiles() {
+  const files = await fs.readdir(path.join(__dirname, 'md'))
+  const filesWithContents = await Promise.all(
+    files.map(async (file) => {
+      const contents = await fs.readFile(
+        path.join(__dirname, 'md', file),
+        'utf-8',
+      )
+      return {
+        file,
+        contents,
+      }
+    }),
   )
-  return data
+
+  const filesObject: {[key: string]: string} = {}
+  for (const {contents, file} of filesWithContents) {
+    filesObject[file] = contents
+  }
+
+  return filesObject
 }
