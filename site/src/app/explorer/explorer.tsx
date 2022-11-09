@@ -7,7 +7,25 @@ import {
 } from '@codesandbox/sandpack-react'
 import {githubLight} from '@codesandbox/sandpack-themes'
 import {useEffect, useState} from 'react'
-import MonacoEditor from './monaco-editor'
+import {parser} from './markdown'
+import MarkdownEditor from './markdown-editor'
+
+const initialMarkdown = `
+# Hello World
+
+This is some body text!
+
+Here's a list:
+
+- item 1
+- item 2
+- item 3
+  - item 3.1
+  - item 3.2
+  - item 3.3
+
+Check out the code at [github.com/with-heart/syntaxtree.xyz](https://github.com/with-heart/syntaxtree.xyz)!
+`.trim()
 
 export default function Explorer() {
   const [theme, setTheme] = useState(githubLight)
@@ -59,14 +77,16 @@ export default function Explorer() {
       }}
       files={{
         'App.tsx': `
+const html = \`${parser(initialMarkdown)}\`
+
 export default function App(): JSX.Element {
-  return <h1>Hello World</h1>
+  return <div dangerouslySetInnerHTML={{__html: html}} />
 }`.trim(),
-        'index.md': `# Hello World\n\nThis is some body text!`,
+        'index.md': initialMarkdown,
       }}
     >
       <SandpackLayout>
-        <MonacoEditor />
+        <MarkdownEditor />
         <SandpackPreview style={{height: '100vh'}} />
       </SandpackLayout>
     </SandpackProvider>

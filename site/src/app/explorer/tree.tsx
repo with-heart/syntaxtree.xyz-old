@@ -1,6 +1,7 @@
+import {useActiveCode} from '@codesandbox/sandpack-react'
+import {fromMarkdown} from 'mdast-util-from-markdown'
 import {Node, Parent} from 'unist'
 import {convert} from 'unist-util-is'
-import './tree.scss'
 
 const isParent = convert((node): node is Parent => 'children' in node)
 
@@ -14,7 +15,7 @@ const omit = <O extends object, Key extends string>(
 }
 
 const Property = ({property, value}: {property: string; value: any}) => {
-  if (!value) return null
+  if (value == null) return null
 
   if (typeof value === 'object') {
     return (
@@ -61,9 +62,12 @@ const Node = ({node, isRoot}: {node: Node; isRoot?: boolean}) => {
   )
 }
 
-export const Tree = ({node}: {node: Node}) => {
+export const Tree = () => {
+  const {code} = useActiveCode()
+  const node = fromMarkdown(code)
+
   return (
-    <div className="tree">
+    <div className="syntax-tree">
       <Node node={node} isRoot />
     </div>
   )
